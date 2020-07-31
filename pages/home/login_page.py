@@ -9,7 +9,7 @@ class LoginPage(BasePage):
     log = cl.customLogger(logging.DEBUG)
 
     def __init__(self, driver):
-        # Calls the __init__ method of the parent aka super class becuase
+        # Calls the __init__ method of the parent aka super class because
         #   it also needs the driver instance to perform actions on elements
         super(LoginPage, self).__init__(driver)
         self.driver = driver
