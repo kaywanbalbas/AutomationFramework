@@ -27,10 +27,10 @@ class RegisterCoursesPage(BasePage):
     _enroll_error_message = "//li[contains(text(),'Sorry, there was an error completing your purchase')]" #xpath
 
     # Actions that are performed on locators
-    def enterCourseName(self, courseName, testing):
+    def enterCourseName(self, courseName, courseCount):
         self.sendKeys(courseName, locator=self._search_box)
         self.elementClick(locator=self._search_icon)
-        print(testing)
+        print(courseCount)
 
     def selectCourseToEnroll(self, courseName):
         self.elementClick(locator=self._course.format(courseName), locatorType="xpath")
