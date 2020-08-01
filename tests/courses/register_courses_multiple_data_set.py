@@ -2,10 +2,12 @@ from pages.courses.register_courses_page import RegisterCoursesPage
 from utilities.teststatus import TestStatus
 import unittest
 import pytest
+from ddt import ddt, data, unpack
 
 
 @pytest.mark.usefixtures("oneTimeSetUp", "setUp")
-class RegisterCoursesTests(unittest.TestCase):
+@ddt
+class RegisterMultipleCoursesTests(unittest.TestCase):
 
     @pytest.fixture(autouse=True)
     def classSetup(self, oneTimeSetUp):
@@ -13,12 +15,15 @@ class RegisterCoursesTests(unittest.TestCase):
         self.ts = TestStatus(self.driver)
 
     @pytest.mark.run(order=1)
-    def test_invalidEnrollment(self):
-        self.rc.enterCourseName("JavaScript")
-        self.rc.selectCourseToEnroll("JavaScript Masterclass")
+    @data(("JavaScript Masterclass", "COURSE1"), ("Learn Python 3 from scratch", "COURSE2"))
+    @unpack
+    def test_invalidEnrollment(self, courseName, testing):
+        self.rc.enterCourseName(courseName, testing)
+        self.rc.selectCourseToEnroll(courseName)
         self.rc.clickEnrollButton()
         self.rc.clickBuyNowButton()
         result = self.rc.verifyEnrollmentFailed()
         self.ts.markFinal(testName="test_invalidEnrollment",
                           result=result,
                           resultMessage="verifyEnrollmentFailed")
+        self.rc.goToHomePage()
