@@ -1,6 +1,7 @@
 from pages.courses.register_courses_page import RegisterCoursesPage
 from utilities.teststatus import TestStatus
 from utilities.read_data import getCSVData
+from pages.home.navigation_page import NavigationPage
 import unittest
 import pytest
 from ddt import ddt, data, unpack
@@ -15,6 +16,10 @@ class RegisterCoursesCSVDataTests(unittest.TestCase):
     def objectSetup(self, oneTimeSetUp):
         self.rc = RegisterCoursesPage(self.driver)
         self.ts = TestStatus(self.driver)
+        self.nav = NavigationPage(self.driver)
+
+    def setUp(self):
+        self.nav.navigateToAllCourses()
 
     @pytest.mark.run(order=1)
     @data(*getCSVData("/Users/K1/Documents/python_workspace/AutomationFramework/testdata.csv"))
@@ -31,4 +36,3 @@ class RegisterCoursesCSVDataTests(unittest.TestCase):
         self.ts.markFinal(testName="test_invalidEnrollment",
                           result=result,
                           resultMessage="verifyEnrollmentFailed")
-        self.rc.goToHomePage()

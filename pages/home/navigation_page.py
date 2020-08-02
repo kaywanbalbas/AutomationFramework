@@ -1,29 +1,48 @@
 from base.basepage import BasePage
 import utilities.custom_logger as cl
-from pages.home.navigation_page import NavigationPage
 import logging
 import time
 
 
-class LoginPage(BasePage):
+class NavigationPage(BasePage):
 
     log = cl.customLogger(logging.DEBUG)
 
     def __init__(self, driver):
         # Calls the __init__ method of the parent aka super class because
         #   it also needs the driver instance to perform actions on elements
-        super(LoginPage, self).__init__(driver)
+        super(NavigationPage, self).__init__(driver)
         self.driver = driver
-        self.nav = NavigationPage(self.driver)
 
     # Locators for elements
     # IMPORTANT: If locator ID/NAME/CLASSES etc change on website, make changes here!
-    _login_link = "Login"
-    _email_field = "user_email"
-    _password_field = "user_password"
-    _login_button = "commit"
+    _home_logo = "//div[@class='navbar-header']//a[@class='navbar-brand header-logo']" #xpath
+    _my_courses = "My Courses" #link
+    _all_courses = "All Courses" #link
+    _practice = "Practice" #link
+    _user_icon = "//a[contains(@class,'open-my-profile-dropdown')]" #xpath
+
 
     # Actions that are performed on locators
+    def navigateToHome(self):
+        self.elementClick(locator=self._home_logo, locatorType="xpath")
+
+    def navigateToMyCourses(self):
+        self.navigateToHome()
+        self.elementClick(locator=self._my_courses, locatorType="link")
+
+    def navigateToAllCourses(self):
+        self.navigateToHome()
+        self.elementClick(locator=self._all_courses, locatorType="link")
+
+    def navigateToPractice(self):
+        self.navigateToHome()
+        self.elementClick(locator=self._practice, locatorType="link")
+
+    def navigateToUserSettings(self):
+        self.navigateToHome()
+        self.elementClick(locator=self._user_icon, locatorType="xpath")
+
     def clickLoginLink(self):
         self.elementClick(self._login_link, locatorType="link")
 
@@ -59,9 +78,4 @@ class LoginPage(BasePage):
         return result
 
     def verifyLoginTitle(self):
-        return self.verifyPageTitle("Let's Kode It")
-
-    def logout(self):
-        self.nav.navigateToUserSettings()
-        self.elementClick(locator="//li[@class='user-signout']/a[@href='/sign_out']",
-                          locatorType="xpath")
+        return self.verifyPageTitle("Google")
