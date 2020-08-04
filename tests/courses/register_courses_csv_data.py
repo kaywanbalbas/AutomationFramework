@@ -19,6 +19,7 @@ class RegisterCoursesCSVDataTests(unittest.TestCase):
         self.nav = NavigationPage(self.driver)
 
     def setUp(self):
+        self.nav.navigateToHome()
         self.nav.navigateToAllCourses()
 
     @pytest.mark.run(order=1)

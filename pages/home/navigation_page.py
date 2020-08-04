@@ -16,11 +16,12 @@ class NavigationPage(BasePage):
 
     # Locators for elements
     # IMPORTANT: If locator ID/NAME/CLASSES etc change on website, make changes here!
-    _home_logo = "//div[@class='navbar-header']//a[@class='navbar-brand header-logo']" #xpath
-    _my_courses = "My Courses" #link
-    _all_courses = "All Courses" #link
-    _practice = "Practice" #link
-    _user_icon = "//a[contains(@class,'open-my-profile-dropdown')]" #xpath
+    _home_logo = "//div[@class='navbar-header']//a[@class='navbar-brand header-logo']"  #xpath
+    _my_courses = "My Courses"  #link
+    _all_courses = "All Courses"  #link
+    _practice = "Practice"  #link
+    _user_icon = "//a[contains(@class,'open-my-profile-dropdown')]"  #xpath
+    # _user_icon = "//div[@id='navbar']//li[@class='dropdown']" #xpath
 
 
     # Actions that are performed on locators
@@ -28,54 +29,52 @@ class NavigationPage(BasePage):
         self.elementClick(locator=self._home_logo, locatorType="xpath")
 
     def navigateToMyCourses(self):
-        self.navigateToHome()
         self.elementClick(locator=self._my_courses, locatorType="link")
 
     def navigateToAllCourses(self):
-        self.navigateToHome()
         self.elementClick(locator=self._all_courses, locatorType="link")
 
     def navigateToPractice(self):
-        self.navigateToHome()
         self.elementClick(locator=self._practice, locatorType="link")
 
     def navigateToUserSettings(self):
-        self.navigateToHome()
-        self.elementClick(locator=self._user_icon, locatorType="xpath")
+        userSettingsElement = self.waitForElement(locator=self._user_icon, locatorType="xpath",
+                                                  pollFrequency=1)
+        self.elementClick(element=userSettingsElement)
 
-    def clickLoginLink(self):
-        self.elementClick(self._login_link, locatorType="link")
-
-    def enterEmail(self, email):
-        self.sendKeys(email, self._email_field)
-
-    def enterPassword(self, password):
-        self.sendKeys(password, self._password_field)
-
-    def clickLoginButton(self):
-        self.elementClick(self._login_button, locatorType="name")
-
-    def clearLoginFields(self):
-        self.clearField(self._email_field)
-        self.clearField(self._password_field)
-
-    def login(self, email="", password=""):
-        self.clickLoginLink()
-        self.clearLoginFields()
-        self.enterEmail(email)
-        self.enterPassword(password)
-        time.sleep(2)
-        self.clickLoginButton()
-
-    def verifyLoginSuccessful(self):
-        result = self.isElementPresent("//a[contains(@class,'open-my-profile-dropdown')]",
-                                       locatorType="xpath")
-        return result
-
-    def verifyLoginFailed(self):
-        result = self.isElementPresent("//div[contains(text(), 'Invalid email or password.')]",
-                                       locatorType="xpath")
-        return result
-
-    def verifyLoginTitle(self):
-        return self.verifyPageTitle("Google")
+    # def clickLoginLink(self):
+    #     self.elementClick(self._login_link, locatorType="link")
+    #
+    # def enterEmail(self, email):
+    #     self.sendKeys(email, self._email_field)
+    #
+    # def enterPassword(self, password):
+    #     self.sendKeys(password, self._password_field)
+    #
+    # def clickLoginButton(self):
+    #     self.elementClick(self._login_button, locatorType="name")
+    #
+    # def clearLoginFields(self):
+    #     self.clearField(self._email_field)
+    #     self.clearField(self._password_field)
+    #
+    # def login(self, email="", password=""):
+    #     self.clickLoginLink()
+    #     self.clearLoginFields()
+    #     self.enterEmail(email)
+    #     self.enterPassword(password)
+    #     time.sleep(2)
+    #     self.clickLoginButton()
+    #
+    # def verifyLoginSuccessful(self):
+    #     result = self.isElementPresent("//a[contains(@class,'open-my-profile-dropdown')]",
+    #                                    locatorType="xpath")
+    #     return result
+    #
+    # def verifyLoginFailed(self):
+    #     result = self.isElementPresent("//div[contains(text(), 'Invalid email or password.')]",
+    #                                    locatorType="xpath")
+    #     return result
+    #
+    # def verifyLoginTitle(self):
+    #     return self.verifyPageTitle("Let's Kode It")

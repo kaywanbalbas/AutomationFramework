@@ -22,6 +22,9 @@ class LoginPage(BasePage):
     _email_field = "user_email"
     _password_field = "user_password"
     _login_button = "commit"
+    _user_icon = "//a[contains(@class,'open-my-profile-dropdown')]"  #xpath
+    _logout_button = "//a[@href='/sign_out' and contains(text(),'Log Out')]" #xpath
+
 
     # Actions that are performed on locators
     def clickLoginLink(self):
@@ -62,6 +65,7 @@ class LoginPage(BasePage):
         return self.verifyPageTitle("Let's Kode It")
 
     def logout(self):
-        self.nav.navigateToUserSettings()
-        self.elementClick(locator="//li[@class='user-signout']/a[@href='/sign_out']",
-                          locatorType="xpath")
+        self.elementClick(locator=self._user_icon, locatorType="xpath")
+        self.elementClick(locator=self._logout_button, locatorType="xpath")
+
+
